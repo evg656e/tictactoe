@@ -1,0 +1,11 @@
+{
+  "name": "broadcastserver",
+  "version": "0.0.1",
+  "description": "Broadcast Server",
+  "main": "server.js",
+  "dependencies": {
+    "express": "4.x.x"
+  },
+  "author": "evg656e",
+  "license": "MIT"
+}

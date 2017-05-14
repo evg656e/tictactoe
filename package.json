@@ -1,0 +1,16 @@
+{
+  "name": "tictactoe",
+  "version": "0.0.1",
+  "private": true,
+  "description": "TicTacToe App",
+  "main": "main.js",
+  "dependencies": {
+    "express": "4.x.x",
+    "ws": "2.x.x"
+  },
+  "scripts": {
+    "start": "node app/server/main.js"
+  },
+  "author": "evg656e",
+  "license": "MIT"
+}

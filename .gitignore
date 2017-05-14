@@ -1,16 +1,7 @@
-# C++ objects and libs
+# Node
+node_modules
 
-*.slo
-*.lo
-*.o
-*.a
-*.la
-*.lai
-*.so
-*.dll
-*.dylib
-
-# Qt-es
+# Qt
 
 /.qmake.cache
 /.qmake.stash
@@ -24,6 +15,8 @@ qrc_*.cpp
 ui_*.h
 Makefile*
 *build-*
+*.qmlc
+*.jsc
 
 # QtCreator
 
@@ -32,7 +25,3 @@ Makefile*
 # QtCtreator Qml
 *.qmlproject.user
 *.qmlproject.user.*
-
-# QtCtreator CMake
-CMakeLists.txt.user
-

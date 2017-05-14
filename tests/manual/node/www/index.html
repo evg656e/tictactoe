@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8">
+<title>Broadcast Client</title>
+<style>
+.textarea, .textfield {
+    width: 320px;
+}
+</style>
+
+<script src="../../../../lib/bootstrap.js"></script>
+<script>
+bootstrap(this, function main() {
+    var statusText = document.querySelector('.status'),
+        textField = document.querySelector('.textfield'),
+        textArea = document.querySelector('.textarea'),
+        sendButton = document.querySelector('.send'),
+        clearButton = document.querySelector('.clear'),
+
+        client = new Broadcast.Client('ws://localhost:8080');
+
+    function updateStatus(ready) {
+        sendButton.disabled = !ready;
+        statusText.textContent = ready ? 'Connected' : 'Not connected';
+    }
+
+    updateStatus(false);
+
+    function appendLine(line) {
+        textArea.value += line + '\n';
+    }
+
+    client.readyChanged.subscribe(updateStatus);
+
+    client.messageReceived.subscribe(appendLine);
+
+    sendButton.onclick = function() {
+        client.send(textField.value);
+    };
+
+    clearButton.onclick = function() {
+        textArea.value = '';
+    };
+});
+</script>
+</head>
+
+<body>
+<span class="status">Not connected</span><br>
+<input type="text" class="textfield" placeholder="Type Some Text Here"> <button class="send" type="button">Send</button>
+<br>
+<textarea class="textarea" readonly rows="24"></textarea>
+<br>
+<button class="clear" type="button">Clear</button>
+
+<script src="../../shared/broadcast.js"></script>
+</body>
+</html>

@@ -29,6 +29,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 android {
-    ANDROID_EXTRA_LIBS += $$PWD/prebuilt/$$ANDROID_TARGET_ARCH/libcrypto.so
-    ANDROID_EXTRA_LIBS += $$PWD/prebuilt/$$ANDROID_TARGET_ARCH/libssl.so
+    ANDROID_EXTRA_LIBS += $$PWD/prebuilt/android/$$ANDROID_TARGET_ARCH/libcrypto.so
+    ANDROID_EXTRA_LIBS += $$PWD/prebuilt/android/$$ANDROID_TARGET_ARCH/libssl.so
 }

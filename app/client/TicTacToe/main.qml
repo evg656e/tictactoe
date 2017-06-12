@@ -45,7 +45,6 @@ Window {
 
         function removeItem(item) {
             var index = items.indexOf(item);
-            console.log('removeItem', index, items.length);
             if (index !== -1) {
                 items.splice(index, 1);
                 if (items.length === 0)
@@ -140,7 +139,6 @@ Window {
         }
 
         function updateMatchState(state, winner) {
-            console.log('controller.updateMatchState()', state);
             if (state === Lib.TicTacToe.PlayersReadyState) {
                 setPlayers(match.players);
             }
@@ -422,8 +420,12 @@ Window {
                         }
 
                         Canvas {
-                            anchors.fill: parent
-                            anchors.margins: 4
+                            anchors {
+                                fill: parent
+                                margins: 4
+                            }
+
+//                            renderTarget: Canvas.FramebufferObject
 
                             property int playerMark: model.playerMark
                             property int playerIndex: model.playerIndex
@@ -565,7 +567,6 @@ Window {
         }
     }
 
-//    Component.onCompleted: {
-//        console.log(Screen.width, Screen.height, Screen.devicePixelRatio, Screen.pixelDensity, window.width, window.height);
-//    }
+    Component.onCompleted: {
+    }
 }

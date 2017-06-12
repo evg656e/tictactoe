@@ -1,4 +1,4 @@
-(function loader(root, fac, id, deps) {
+function loader(root, fac, id, deps) {
     if (typeof bootstrap === 'function') { // browser dynamic loader
         bootstrap(root, fac, id, deps);
         return;
@@ -20,49 +20,4 @@
         }));
     else // browser static loader
         root[id] = fac.apply(root, deps.map(function(dep) { return root[dep.id]; }));
-/*loader.*/}(this, function(_) {
-
-'use strict';
-
-console.log('defining Test_Lodash');
-
-var debounce = _.debounce;
-
-var suite = {};
-
-suite.test_debounce = function(test) {
-    var clickCount = 0;
-    function click() {
-        clickCount++;
-        test.strictEqual(clickCount, 1);
-        test.done();
-    }
-
-    var debouncedClick = debounce(click);
-
-    debouncedClick();
-    debouncedClick();
-    debouncedClick();
-    test.strictEqual(clickCount, 0);
-};
-
-suite.test_debounceCancel = function(test) {
-    var clickCount = 0;
-    function click() {
-        clickCount++;
-        test.strictEqual(clickCount, 1);
-        test.done();
-    }
-
-    var debouncedClick = debounce(click, 100);
-
-    debouncedClick();
-    debouncedClick();
-    debouncedClick();
-    //debouncedClick.cancel();
-    test.strictEqual(clickCount, 0);
-};
-
-return suite;
-
-}, 'Test_Lodash', ['../../../lib/3rdparty/lodash']));
+/*loader.*/}

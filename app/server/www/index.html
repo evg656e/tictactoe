@@ -598,7 +598,7 @@ MatchScoreWidget.prototype.bindElement = function(element) {
             self  = element.querySelector('.{0}.self-mark'        .format(TicTacToe.playerClass(playerIndex))),
             score = element.querySelector('.{0}.score-output'     .format(TicTacToe.playerClass(playerIndex)));
         name.dataset.playerIndex = playerIndex;
-        name.onchange = name.onpaste = this.changeName.bind(this);
+        name.onchange = name.onpaste = name.onkeyup = this.changeName.bind(this);
         self.onmouseover = this.showSelfMarkTip.bind(this);
         self.onmouseout  = this.hideSelfMarkTip.bind(this);
         setVisibility(self, false);

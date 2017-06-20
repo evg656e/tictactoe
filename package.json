@@ -1,16 +1,20 @@
 {
   "name": "tictactoe",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "private": true,
   "description": "TicTacToe App",
   "dependencies": {
-    "express": "4.x.x",
-    "ws": "2.x.x"
+    "express": "^4.15.3",
+    "ws": "^2.3.1"
   },
   "scripts": {
-    "start": "node app/server/main.js",
+    "build": "webpack",
+    "start": "node app/node/main.js",
     "test": "nodeunit tests/auto/node"
   },
   "author": "evg656e",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^3.0.0"
+  }
 }

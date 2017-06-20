@@ -3,7 +3,7 @@ import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.2
 import QtWebSockets 1.1
-import 'tictactoe.qml.js' as Lib
+import 'lib.qml.js' as Lib
 
 Window {
     id: window
@@ -20,6 +20,7 @@ Window {
     readonly property int lineWidth: 4
 
     readonly property string serverUrl: 'ws://tictactoe-env.us-west-2.elasticbeanstalk.com/'
+//    readonly property string serverUrl: 'ws://127.0.0.1:3000/'
 
     function playerColor(color) {
         switch (color) {

@@ -3,7 +3,7 @@ var port      = process.env.PORT || 3000,
     http      = require('http'),
     url       = require('url'),
     path      = require('path'),
-    TicTacToe = require('../../lib/tictactoe.js');
+    TicTacToe = require('../../dist/lib.js');
 
 var app        = express(),
     httpServer = http.createServer(app),
@@ -16,10 +16,10 @@ app.use(function(req, res, next) {
 
 app.get('/', function(req, res) {
 	console.log('app.get()', req.url);
-    res.sendFile(path.resolve(path.join(__dirname, 'www/index.html')));
+    res.sendFile(path.resolve(path.join(__dirname, '../www/index.html')));
 });
 
-app.use('/lib', express.static(path.resolve(path.join(__dirname, '../../lib'))));
+app.use('/dist', express.static(path.resolve(path.join(__dirname, '../../dist'))));
 
 httpServer.listen(port);
 

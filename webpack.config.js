@@ -5,7 +5,7 @@ var QmlPragmaLibraryWebpackPlugin = require('../qmlpragmalibrary-webpack-plugin'
 
 var baseConfig = {
     output: {
-        path: path.resolve(__dirname, 'dist')
+        path: path.resolve(__dirname, 'build')
     },
     plugins: [
         new webpack.optimize.ModuleConcatenationPlugin()
@@ -21,20 +21,27 @@ var baseConfig = {
     }
 };
 
-var libConfig = webpackMerge(baseConfig, {
-    entry: './lib/tictactoe.js',
+var clientConfig = webpackMerge(baseConfig, {
+    entry: './lib/tictactoeclient.js',
     output: {
         library: 'TicTacToe',
         libraryTarget: 'umd',
         libraryExport: 'default',
-        filename: 'lib.js',
+        filename: 'tictactoeclient.js',
     }
 });
 
-var qmlLibConfig = webpackMerge(libConfig, {
-    entry: ['./lib/timers.js', './lib/tictactoe.js'],
+var serverConfig = webpackMerge(clientConfig, {
+    entry: './lib/tictactoeserver.js',
     output: {
-        filename: 'lib.qml.js'
+        filename: 'tictactoeserver.js',
+    }
+});
+
+var qmlClientConfig = webpackMerge(clientConfig, {
+    entry: ['./lib/timers.js', './lib/tictactoeclient.js'],
+    output: {
+        filename: 'tictactoeclient.qml.js'
     },
     plugins: [
         new QmlPragmaLibraryWebpackPlugin()
@@ -42,14 +49,15 @@ var qmlLibConfig = webpackMerge(libConfig, {
 });
 
 var appConfig = webpackMerge(baseConfig, {
-    entry: './app/www/index.js',
+    entry: './app/web/index.js',
     output: {
-        filename: 'app.js',
+        filename: 'tictactoeapp.js',
     },
 });
 
 module.exports = [
-    libConfig,
-    qmlLibConfig,
+    clientConfig,
+    qmlClientConfig,
+    serverConfig,
     appConfig
 ];

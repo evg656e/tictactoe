@@ -2,6 +2,6 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>qtquickcontrols2.conf</file>
-        <file alias="lib.qml.js">../../../dist/lib.qml.js</file>
+        <file alias="tictactoeclient.qml.js">../../../build/tictactoeclient.qml.js</file>
     </qresource>
 </RCC>

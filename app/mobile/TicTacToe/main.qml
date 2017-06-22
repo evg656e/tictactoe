@@ -3,7 +3,7 @@ import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.2
 import QtWebSockets 1.1
-import 'lib.qml.js' as Lib
+import 'tictactoeclient.qml.js' as Lib
 
 Window {
     id: window

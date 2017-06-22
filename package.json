@@ -4,8 +4,6 @@
   "private": true,
   "description": "TicTacToe App",
   "dependencies": {
-    "express": "^4.15.3",
-    "ws": "^2.3.1"
   },
   "scripts": {
     "build": "webpack",
@@ -15,6 +13,8 @@
   "author": "evg656e",
   "license": "MIT",
   "devDependencies": {
+    "express": "^4.15.3",
+    "ws": "^2.3.1",
     "events": "^1.1.1",
     "lodash": "^4.17.4",
     "webpack": "^3.0.0",

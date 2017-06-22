@@ -1,5 +1,5 @@
 import signal    from '../../lib/signal.js';
-import TicTacToe from '../../lib/tictactoe.js';
+import TicTacToe from '../../lib/tictactoeclient.js';
 
 /*!
     \fn parseUrl

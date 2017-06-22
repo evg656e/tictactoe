@@ -1,7 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var webpackMerge = require('webpack-merge');
-var QmlPragmaLibraryWebpackPlugin = require('./tools/qmlpragmalibrary-webpack-plugin.js');
+var QmlPragmaLibraryWebpackPlugin = require('qmlpragmalibrary-webpack-plugin');
 
 var baseConfig = {
     output: {
@@ -10,8 +10,14 @@ var baseConfig = {
     plugins: [
         new webpack.optimize.ModuleConcatenationPlugin()
     ],
-    externals: {
-        ws: 'ws'
+    module: {
+        rules: [{
+            test: /websocket\.js$/,
+            parser: {
+                commonjs: false,
+                node: false
+            }
+        }]
     }
 };
 

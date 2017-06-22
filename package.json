@@ -16,7 +16,6 @@
   "license": "MIT",
   "devDependencies": {
     "webpack": "^3.0.0",
-    "webpack-merge": "^4.1.0",
-    "webpack-sources": "^1.0.1"
+    "webpack-merge": "^4.1.0"
   }
 }

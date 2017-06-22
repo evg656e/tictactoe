@@ -48,8 +48,6 @@ var appConfig = webpackMerge(baseConfig, {
     },
 });
 
-console.log(qmlLibConfig);
-
 module.exports = [
     libConfig,
     qmlLibConfig,

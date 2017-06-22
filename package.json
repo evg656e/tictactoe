@@ -5,6 +5,7 @@
   "description": "TicTacToe App",
   "dependencies": {
     "express": "^4.15.3",
+    "webpack-sources": "^1.0.1",
     "ws": "^2.3.1"
   },
   "scripts": {
@@ -15,6 +16,7 @@
   "author": "evg656e",
   "license": "MIT",
   "devDependencies": {
+    "events": "^1.1.1",
     "webpack": "^3.0.0",
     "webpack-merge": "^4.1.0"
   }

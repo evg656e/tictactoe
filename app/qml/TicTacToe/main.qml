@@ -19,8 +19,8 @@ Window {
 
     readonly property int lineWidth: 4
 
-    readonly property string serverUrl: 'ws://tictactoe-env.us-west-2.elasticbeanstalk.com/'
-//    readonly property string serverUrl: 'ws://127.0.0.1:3000/'
+//    readonly property string serverUrl: 'ws://tictactoe-env.us-west-2.elasticbeanstalk.com/'
+    readonly property string serverUrl: 'ws://127.0.0.1:3000/'
 
     function playerColor(color) {
         switch (color) {
@@ -120,8 +120,8 @@ Window {
             var index = players.indexOf(player);
             if (index !== -1) {
                 players.splice(index, 1);
-                player.nameChanged.unsubscribe(updateName);
-                player.scoreChanged.unsubscribe(updateScore);
+                player.nameChanged.disconnect(updateName);
+                player.scoreChanged.disconnect(updateScore);
                 clearName(player);
                 clearScore(player);
             }
@@ -134,8 +134,8 @@ Window {
                     player1SelfMark.opacity = player.isSelf() ? 1 : 0;
                 else if (index === Lib.TicTacToe.Player2)
                     player2SelfMark.opacity = player.isSelf() ? 1 : 0;
-                player.nameChanged.subscribe(updateName);
-                player.scoreChanged.subscribe(updateScore);
+                player.nameChanged.connect(updateName);
+                player.scoreChanged.connect(updateScore);
             });
         }
 
@@ -166,15 +166,15 @@ Window {
 
         function setMatch(newMatch) {
             if (match) {
-                match.movePassed.unsubscribe(updateCurrentPlayer);
-                match.stateChanged.unsubscribe(updateMatchState);
-                match.playerRemoved.unsubscribe(removePlayer);
+                match.movePassed.disconnect(updateCurrentPlayer);
+                match.stateChanged.disconnect(updateMatchState);
+                match.playerRemoved.disconnect(removePlayer);
             }
             match = newMatch;
             if (match) {
-                match.movePassed.subscribe(updateCurrentPlayer);
-                match.stateChanged.subscribe(updateMatchState);
-                match.playerRemoved.subscribe(removePlayer);
+                match.movePassed.connect(updateCurrentPlayer);
+                match.stateChanged.connect(updateMatchState);
+                match.playerRemoved.connect(removePlayer);
                 gridModel.setGrid(match.grid);
             }
         }
@@ -193,9 +193,9 @@ Window {
 
         Component.onCompleted: {
             gameClient = new Lib.TicTacToe.GameClient(serverUrl)
-            gameClient.matchReady.subscribe(setMatch)
-            gameClient.showStatus.subscribe(showClientStatus);
-            gameClient.hideStatus.subscribe(hideClientStatus);
+            gameClient.matchReady.connect(setMatch)
+            gameClient.showStatus.connect(showClientStatus);
+            gameClient.hideStatus.connect(hideClientStatus);
             gameModes.itemAt(0).checked = true
         }
     }
@@ -217,13 +217,13 @@ Window {
 
         function setGrid(newGrid) {
             if (grid) {
-                grid.cellChanged.unsubscribe(updateCell);
-                grid.cleared.unsubscribe(updateGrid);
+                grid.cellChanged.disconnect(updateCell);
+                grid.cleared.disconnect(updateGrid);
             }
             grid = newGrid;
             if (grid) {
-                grid.cellChanged.subscribe(updateCell);
-                grid.cleared.subscribe(updateGrid);
+                grid.cellChanged.connect(updateCell);
+                grid.cleared.connect(updateGrid);
             }
         }
     }

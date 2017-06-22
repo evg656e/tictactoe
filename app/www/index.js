@@ -1,7 +1,5 @@
-import Observer from '../../lib/observer.js';
+import signal    from '../../lib/signal.js';
 import TicTacToe from '../../lib/tictactoe.js';
-
-var message = Observer.message;
 
 /*!
     \fn parseUrl
@@ -149,11 +147,11 @@ var dotsAnimation = (function(delay) {
 */
 function GridView(props) {
     props = props || {};
-    this.cellClicked = message();
+    this.cellClicked = signal();
     this.strokeWidth = props.strokeWidth || 4;
     this.updateCell = this.updateCell.bind(this);
     this.updateGrid = this.updateGrid.bind(this);
-};
+}
 
 GridView.prototype.updateCell = function(row, column, mark, index) {
     var cell = this.element.rows[row].cells[column];
@@ -197,13 +195,13 @@ GridView.prototype.click = function(e) {
 
 GridView.prototype.setGrid = function(grid) {
     if (this.grid != null) {
-        this.grid.cellChanged.unsubscribe(this.updateCell);
-        this.grid.cleared.unsubscribe(this.updateGrid);
+        this.grid.cellChanged.disconnect(this.updateCell);
+        this.grid.cleared.disconnect(this.updateGrid);
     }
     this.grid = grid;
     if (this.grid != null) {
-        this.grid.cellChanged.subscribe(this.updateCell);
-        this.grid.cleared.subscribe(this.updateGrid);
+        this.grid.cellChanged.connect(this.updateCell);
+        this.grid.cleared.connect(this.updateGrid);
     }
     this.updateGrid();
 };
@@ -217,7 +215,7 @@ GridView.prototype.bindElement = function(element) {
 */
 function PushButton(props) {
     props = props || {};
-    this.clicked = message();
+    this.clicked = signal();
     this.text = props.text || '';
     if (props.dataset)
         this.dataset = props.dataset;
@@ -251,7 +249,7 @@ PushButton.prototype.createElement = function() {
 function ToggleButton(props) {
     props = props || {};
     PushButton.call(this, props);
-    this.toggled = message();
+    this.toggled = signal();
     this.checked = props.checked || false;
 }
 
@@ -295,7 +293,7 @@ function ButtonGroup(props) {
     props = props || {};
     this.current = null;
     this.buttons = [];
-    this.currentChanged = message();
+    this.currentChanged = signal();
     this.toggleButton = this.toggleButton.bind(this);
 }
 
@@ -316,7 +314,7 @@ ButtonGroup.prototype.toggleButton = function(button) {
 
 ButtonGroup.prototype.add = function(button) {
     this.buttons.push(button);
-    button.toggled.subscribe(this.toggleButton);
+    button.toggled.connect(this.toggleButton);
     if (this.element != null) {
         var element = button.createElement();
         button.bindElement(element);
@@ -328,7 +326,7 @@ ButtonGroup.prototype.add = function(button) {
 ButtonGroup.prototype.clear = function() {
     while (this.buttons.length !== 0) {
         var button = this.buttons.pop();
-        button.toggled.unsubscribe(this.toggleButton);
+        button.toggled.disconnect(this.toggleButton);
     }
 };
 
@@ -384,8 +382,8 @@ MatchScoreWidget.prototype.removePlayer = function(player) {
     var index = this.players.indexOf(player);
     if (index !== -1) {
         this.players.splice(index, 1);
-        player.nameChanged.unsubscribe(this.updateName);
-        player.scoreChanged.unsubscribe(this.updateScore);
+        player.nameChanged.disconnect(this.updateName);
+        player.scoreChanged.disconnect(this.updateScore);
         var widget = this.widgets[player.index];
         widget.name.value        = TicTacToe.playerName(player.index);
         widget.name.readOnly     = false;
@@ -403,8 +401,8 @@ MatchScoreWidget.prototype.setPlayers = function(players) {
         widget.name.readOnly     = player.nameReadOnly;
 //        widget.score.textContent = player.score;
         setVisibility(widget.self, player.isSelf());
-        player.nameChanged.subscribe(this.updateName);
-        player.scoreChanged.subscribe(this.updateScore);
+        player.nameChanged.connect(this.updateName);
+        player.scoreChanged.connect(this.updateScore);
     }.bind(this));
 };
 
@@ -448,7 +446,7 @@ MatchScoreWidget.prototype.bindElement = function(element) {
 function MatchStatusWidget() {
     this.statusBlocks = {};
     this.updatePlayerName = this.updatePlayerName.bind(this);
-};
+}
 
 MatchStatusWidget.prototype.toggleBlock = function(current, callback) {
     if (this.current != null) {
@@ -483,10 +481,10 @@ MatchStatusWidget.prototype.updatePlayerName = function(player) {
 
 MatchStatusWidget.prototype.setPlayer = function(player) {
     if (this.player != null)
-        this.player.nameChanged.unsubscribe(this.updatePlayerName);
+        this.player.nameChanged.disconnect(this.updatePlayerName);
     this.player = player;
     if (this.player != null)
-        this.player.nameChanged.subscribe(this.updatePlayerName);
+        this.player.nameChanged.connect(this.updatePlayerName);
 };
 
 MatchStatusWidget.prototype.setWinner = function(winner) {
@@ -528,8 +526,8 @@ MatchStatusWidget.prototype.bindElement = function(element) {
 
 function GameClientWidget(gameClient) {
     this.gameClient = gameClient;
-    gameClient.showStatus.subscribe(this.showStatus.bind(this));
-    gameClient.hideStatus.subscribe(this.hideStatus.bind(this));
+    gameClient.showStatus.connect(this.showStatus.bind(this));
+    gameClient.hideStatus.connect(this.hideStatus.bind(this));
 }
 
 GameClientWidget.prototype.showStatus = function(status) {
@@ -555,7 +553,7 @@ GameClientWidget.prototype.changeMode = function(current) {
 GameClientWidget.prototype.bindElement = function(element) {
     this.element = element;
     var buttonGroup = new ButtonGroup();
-    buttonGroup.currentChanged.subscribe(this.changeMode.bind(this));
+    buttonGroup.currentChanged.connect(this.changeMode.bind(this));
     buttonGroup.bindElement(element.querySelector('.button-group'));
     TicTacToe.availableGameModes().forEach(function(mode, index) {
         var button = new ToggleButton({
@@ -573,7 +571,7 @@ GameClientWidget.prototype.bindElement = function(element) {
 
 function Controller() {
     this.gameClient = new TicTacToe.GameClient(getWebSocketUrl(document.URL));
-    this.gameClient.matchReady.subscribe(this.setMatch.bind(this));
+    this.gameClient.matchReady.connect(this.setMatch.bind(this));
     this.updateCurrentPlayer = this.updateCurrentPlayer.bind(this);
     this.removePlayer = this.removePlayer.bind(this);
     this.updateMatchState = this.updateMatchState.bind(this);
@@ -609,15 +607,15 @@ Controller.prototype.removePlayer = function(player) {
 
 Controller.prototype.setMatch = function(match) {
     if (this.match != null) {
-        this.match.movePassed.unsubscribe(this.updateCurrentPlayer);
-        this.match.stateChanged.unsubscribe(this.updateMatchState);
-        this.match.playerRemoved.unsubscribe(this.removePlayer);
+        this.match.movePassed.disconnect(this.updateCurrentPlayer);
+        this.match.stateChanged.disconnect(this.updateMatchState);
+        this.match.playerRemoved.disconnect(this.removePlayer);
     }
     this.match = match;
     if (this.match != null) {
-        this.match.movePassed.subscribe(this.updateCurrentPlayer);
-        this.match.stateChanged.subscribe(this.updateMatchState);
-        this.match.playerRemoved.subscribe(this.removePlayer);
+        this.match.movePassed.connect(this.updateCurrentPlayer);
+        this.match.stateChanged.connect(this.updateMatchState);
+        this.match.playerRemoved.connect(this.removePlayer);
         if (this.gridView != null)
             this.gridView.setGrid(this.match.grid);
     }
@@ -628,7 +626,7 @@ Controller.prototype.bindElement = function(element) {
 
     this.gridView = new GridView();
     this.gridView.bindElement(element.querySelector('.grid-view'));
-    this.gridView.cellClicked.subscribe(this.move.bind(this));
+    this.gridView.cellClicked.connect(this.move.bind(this));
 
     this.scoreWidget = new MatchScoreWidget();
     this.scoreWidget.bindElement(element.querySelector('.match-score-widget'));

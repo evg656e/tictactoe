@@ -1,7 +1,7 @@
 var path = require('path');
 var webpack = require('webpack');
 var webpackMerge = require('webpack-merge');
-var QmlPragmaLibraryWebpackPlugin = require('qmlpragmalibrary-webpack-plugin');
+var QmlPragmaLibraryWebpackPlugin = require('../qmlpragmalibrary-webpack-plugin');
 
 var baseConfig = {
     output: {
@@ -22,7 +22,7 @@ var baseConfig = {
 };
 
 var libConfig = webpackMerge(baseConfig, {
-    entry: './lib/tictactoe.js',
+    entry: ['./lib/polyfill/timers.js', './lib/tictactoe.js'],
     output: {
         library: 'TicTacToe',
         libraryTarget: 'umd',

@@ -22,7 +22,7 @@ var baseConfig = {
 };
 
 var libConfig = webpackMerge(baseConfig, {
-    entry: ['./lib/polyfill/timers.js', './lib/tictactoe.js'],
+    entry: './lib/tictactoe.js',
     output: {
         library: 'TicTacToe',
         libraryTarget: 'umd',
@@ -32,6 +32,7 @@ var libConfig = webpackMerge(baseConfig, {
 });
 
 var qmlLibConfig = webpackMerge(libConfig, {
+    entry: ['./lib/timers.js', './lib/tictactoe.js'],
     output: {
         filename: 'lib.qml.js'
     },
@@ -46,6 +47,8 @@ var appConfig = webpackMerge(baseConfig, {
         filename: 'app.js',
     },
 });
+
+console.log(qmlLibConfig);
 
 module.exports = [
     libConfig,

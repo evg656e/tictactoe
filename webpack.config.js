@@ -1,9 +1,9 @@
-var path = require('path');
-var webpack = require('webpack');
-var webpackMerge = require('webpack-merge');
-var QmlPragmaLibraryWebpackPlugin = require('../qmlpragmalibrary-webpack-plugin');
+const path = require('path');
+const webpack = require('webpack');
+const webpackMerge = require('webpack-merge');
+const QmlPragmaLibraryWebpackPlugin = require('qmlpragmalibrary-webpack-plugin');
 
-var baseConfig = {
+let baseConfig = {
     output: {
         path: path.resolve(__dirname, 'build')
     },
@@ -21,7 +21,7 @@ var baseConfig = {
     }
 };
 
-var clientConfig = webpackMerge(baseConfig, {
+let clientConfig = webpackMerge(baseConfig, {
     entry: './lib/tictactoeclient.js',
     output: {
         library: 'TicTacToe',
@@ -31,7 +31,7 @@ var clientConfig = webpackMerge(baseConfig, {
     }
 });
 
-var serverConfig = webpackMerge(clientConfig, {
+let serverConfig = webpackMerge(clientConfig, {
     entry: './lib/tictactoeserver.js',
     output: {
         filename: 'tictactoeserver.js',
@@ -48,7 +48,7 @@ var qmlClientConfig = webpackMerge(clientConfig, {
     ]
 });
 
-var appConfig = webpackMerge(baseConfig, {
+let appConfig = webpackMerge(baseConfig, {
     entry: './app/web/index.js',
     output: {
         filename: 'tictactoeapp.js',

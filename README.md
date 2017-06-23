@@ -1,5 +1,7 @@
-# TicTacToe App
+# TicTacToe
 
-web-app url: http://tictactoe-env.us-west-2.elasticbeanstalk.com/
+Isomorphic JavaScript game build up with Webpack.
 
-mobile app demo: https://youtu.be/4H2qJDw6j44
+Hosted on AWS Elastic Beanstalk: http://tictactoe-env.us-west-2.elasticbeanstalk.com/
+
+Mobile app made up with Qt QML: https://youtu.be/4H2qJDw6j44

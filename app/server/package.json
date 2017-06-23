@@ -1,5 +1,5 @@
 {
-  "name": "tictactoe server",
+  "name": "tictactoe-server",
   "version": "0.0.2",
   "private": true,
   "description": "TicTacToe Server",
@@ -8,7 +8,7 @@
     "ws": "^2.3.1"
   },
   "scripts": {
-    "start": "node main.js",
+    "start": "node main.js"
   },
   "author": "evg656e",
   "license": "MIT"

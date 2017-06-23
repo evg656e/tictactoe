@@ -19,8 +19,8 @@ Window {
 
     readonly property int lineWidth: 4
 
-//    readonly property string serverUrl: 'ws://tictactoe-env.us-west-2.elasticbeanstalk.com/'
-    readonly property string serverUrl: 'ws://127.0.0.1:3000/'
+    readonly property string serverUrl: 'ws://tictactoe-env.us-west-2.elasticbeanstalk.com/'
+//    readonly property string serverUrl: 'ws://127.0.0.1:3000/'
 
     function playerColor(color) {
         switch (color) {

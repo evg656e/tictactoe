@@ -19,7 +19,7 @@ app.get('/', function(req, res) {
     res.sendFile(path.resolve(path.join(__dirname, 'public/index.html')));
 });
 
-app.use('/public', express.static(path.resolve(path.join(__dirname, '../../public'))));
+app.use('/public', express.static(path.resolve(path.join(__dirname, 'public'))));
 
 httpServer.listen(port);
 

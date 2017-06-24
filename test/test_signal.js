@@ -1,5 +1,5 @@
 import assert from 'assert';
-import signal from '../lib/signal.js';
+import signal, { Signal } from '../lib/signal.js';
 
 describe('signal', function() {
     it('signal', function() {
@@ -105,5 +105,84 @@ describe('signal', function() {
             greet(phrases[0], 0);
             greet(phrases[1], 1);
         });
+    });
+
+
+    it('Signal', function() {
+        let clickCount = 0;
+        function clicked() {
+            clickCount++;
+        }
+
+        let initialized = false;
+        function init() {
+            initialized = !initialized;
+        }
+
+        let widget = {
+            clickCount: 0,
+            clicked: function() {
+                this.clickCount++;
+            }
+        };
+
+        let widgetClicked = widget.clicked.bind(widget);
+
+        let click = new Signal();
+
+        assert.strictEqual(click.slotCount(), 0);
+
+        click.once(init);
+        click.connect(clicked);
+        click.connect(widgetClicked);
+
+        assert.strictEqual(click.slotCount(), 3);
+
+        click.emit();
+
+        assert.strictEqual(click.slotCount(), 2);
+
+        assert.ok(initialized);
+        assert.strictEqual(clickCount, 1);
+        assert.strictEqual(widget.clickCount, 1);
+        click.emit();
+
+        assert.ok(initialized);
+        assert.strictEqual(clickCount, 2);
+        assert.strictEqual(widget.clickCount, 2);
+
+        click.disconnect(clicked);
+
+        assert.strictEqual(click.slotCount(), 1);
+
+        click.emit();
+
+        assert.strictEqual(clickCount, 2);
+        assert.strictEqual(widget.clickCount, 3);
+
+        click.disconnect(widgetClicked);
+
+        assert.strictEqual(click.slotCount(), 0);
+
+        click.emit();
+
+        assert.strictEqual(clickCount, 2);
+        assert.strictEqual(widget.clickCount, 3);
+
+        click.connect(clicked);
+
+        assert.strictEqual(click.slotCount(), 1);
+
+        click.emit();
+
+        assert.strictEqual(clickCount, 3);
+
+        click.disconnectAll();
+
+        assert.strictEqual(click.slotCount(), 0);
+
+        click.emit();
+
+        assert.strictEqual(clickCount, 3);
     });
 });

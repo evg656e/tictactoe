@@ -9,17 +9,7 @@ let baseConfig = {
     },
     plugins: [
         new webpack.optimize.ModuleConcatenationPlugin()
-    ],
-    externals: 'ws'
-//    module: {
-//        rules: [{
-//            test: /websocket\.js$/,
-//            parser: {
-//                commonjs: false,
-//                node: false
-//            }
-//        }]
-//    }
+    ]
 };
 
 let clientConfig = webpackMerge(baseConfig, {

@@ -37,6 +37,7 @@
     "gulp": "^3.9.1",
     "lodash": "^4.17.4",
     "mocha": "^3.4.2",
+    "qml-polyfill": "0.0.1",
     "qmlpragmalibrary-webpack-plugin": "0.0.1",
     "webpack": "^3.0.0",
     "webpack-merge": "^4.1.0",

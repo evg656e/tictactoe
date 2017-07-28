@@ -10,15 +10,16 @@ let baseConfig = {
     plugins: [
         new webpack.optimize.ModuleConcatenationPlugin()
     ],
-    module: {
-        rules: [{
-            test: /websocket\.js$/,
-            parser: {
-                commonjs: false,
-                node: false
-            }
-        }]
-    }
+    externals: 'ws'
+//    module: {
+//        rules: [{
+//            test: /websocket\.js$/,
+//            parser: {
+//                commonjs: false,
+//                node: false
+//            }
+//        }]
+//    }
 };
 
 let clientConfig = webpackMerge(baseConfig, {
@@ -39,7 +40,7 @@ let serverConfig = webpackMerge(clientConfig, {
 });
 
 var qmlClientConfig = webpackMerge(clientConfig, {
-    entry: ['./lib/timers.js', './lib/tictactoeclient.js'],
+    entry: ['qml-polyfill/lib/timers.js', './lib/tictactoeclient.js'],
     output: {
         filename: 'tictactoeclient.qml.js'
     },

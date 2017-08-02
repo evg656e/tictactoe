@@ -30,7 +30,7 @@ let serverConfig = webpackMerge(clientConfig, {
 });
 
 var qmlClientConfig = webpackMerge(clientConfig, {
-    entry: ['qml-polyfill/lib/timers.js', './lib/tictactoeclient.js'],
+    entry: ['polyfill-qml/lib/timers.js', './lib/tictactoeclient.js'],
     output: {
         filename: 'tictactoeclient.qml.js'
     },

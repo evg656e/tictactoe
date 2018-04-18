@@ -1,8 +1,8 @@
 import assert from 'assert';
-import signal, { Signal } from '../lib/signal.js';
+import { Signal, signal } from '../../lib/core/signal.js';
 
-describe('signal', function() {
-    it('signal', function() {
+describe('core.Signal', function () {
+    it('signal', function () {
         let clickCount = 0;
         function clicked() {
             clickCount++;
@@ -15,7 +15,7 @@ describe('signal', function() {
 
         let widget = {
             clickCount: 0,
-            clicked: function() {
+            clicked() {
                 this.clickCount++;
             }
         };
@@ -39,6 +39,7 @@ describe('signal', function() {
         assert.ok(initialized);
         assert.strictEqual(clickCount, 1);
         assert.strictEqual(widget.clickCount, 1);
+
         click();
 
         assert.ok(initialized);
@@ -80,10 +81,10 @@ describe('signal', function() {
         assert.strictEqual(clickCount, 3);
     });
 
-    it('signal async', function(done) {
+    it('signal async', function (done) {
         function callLater(fn, delay) {
-            return function(...args) {
-                setTimeout(function() {
+            return function (...args) {
+                setTimeout(function () {
                     fn.apply(null, args);
                 }, delay);
             };
@@ -95,20 +96,19 @@ describe('signal', function() {
         let count = phrases.length;
         let greet = signal();
 
-        greet.connect(callLater(function(phrase, index) {
+        greet.connect(callLater(function (phrase, index) {
             assert.equal(phrase, phrases[index]);
             if (--count === 0)
                 done();
         }, delay));
 
-        phrases.forEach(function(phrase, index) {
+        phrases.forEach(function (phrase, index) {
             greet(phrases[0], 0);
             greet(phrases[1], 1);
         });
     });
 
-
-    it('Signal', function() {
+    it('Signal', function () {
         let clickCount = 0;
         function clicked() {
             clickCount++;
@@ -121,7 +121,7 @@ describe('signal', function() {
 
         let widget = {
             clickCount: 0,
-            clicked: function() {
+            clicked() {
                 this.clickCount++;
             }
         };

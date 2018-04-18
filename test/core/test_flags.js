@@ -1,15 +1,15 @@
 import assert from 'assert';
-import { setFlag, testFlag } from '../lib/flags.js';
+import { setFlag, testFlag } from '../../lib/core/flags.js';
 
-const NoModifier      = 0x00,
-      ShiftModifier   = 0x02,
-      ControlModifier = 0x04,
-      AltModifier     = 0x08,
-      MetaModifier    = 0x10,
-      KeypadModifier  = 0x20;
+const NoModifier    = 0x00,
+    ShiftModifier   = 0x02,
+    ControlModifier = 0x04,
+    AltModifier     = 0x08,
+    MetaModifier    = 0x10,
+    KeypadModifier  = 0x20;
 
-describe('flags', function() {
-    it('testFlag', function() {
+describe('core.flags', function () {
+    it('testFlag', function () {
         let flags1 = NoModifier,
             flags2 = ControlModifier | ShiftModifier;
 
@@ -21,7 +21,7 @@ describe('flags', function() {
         assert.ok(!testFlag(flags2, AltModifier));
     });
 
-    it('setFlag', function() {
+    it('setFlag', function () {
         let flags = NoModifier;
 
         assert.ok(flags === NoModifier);

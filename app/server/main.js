@@ -1,20 +1,22 @@
-var port      = process.env.PORT || 3000,
-    express   = require('express'),
-    http      = require('http'),
-    url       = require('url'),
-    path      = require('path'),
-    TicTacToe = require('./tictactoeserver.js');
+const express   = require('express');
+const http      = require('http');
+const url       = require('url');
+const path      = require('path');
+const WebSocket = require('ws');
+const TicTacToe = require('./build/tictactoe.js');
 
-var app        = express(),
-    httpServer = http.createServer(app),
-    gameServer = new TicTacToe.GameServer(httpServer);
+const port = process.env.PORT || 3000;
 
-app.use(function(req, res, next) {
+const app        = express();
+const httpServer = http.createServer(app);
+const gameServer = new TicTacToe.GameServer(httpServer, WebSocket);
+
+app.use(function (req, res, next) {
     console.log('app.use()', req.url);
     next();
 });
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
     console.log('app.get()', req.url);
     res.sendFile(path.resolve(path.join(__dirname, 'public/index.html')));
 });

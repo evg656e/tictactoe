@@ -1,11 +1,11 @@
 {
   "name": "tictactoe-server",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "description": "TicTacToe Server",
   "dependencies": {
-    "express": "^4.15.3",
-    "ws": "^2.3.1"
+    "express": "^4.16.3",
+    "ws": "^5.1.1"
   },
   "scripts": {
     "start": "node main.js"

@@ -1,14 +1,21 @@
 {
   "name": "tictactoe",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "private": true,
   "description": "TicTacToe Game",
   "dependencies": {},
   "scripts": {
-    "build": "webpack",
+    "build": "webpack --config ./app/webpack.config.js --mode production",
+    "build-dev": "webpack --config ./app/webpack.config.js --mode development",
+    "build-server": "webpack --config ./app/server/webpack.config.js --mode production",
+    "build-server-dev": "webpack --config ./app/server/webpack.config.js --mode development",
+    "build-web": "webpack --config ./app/web/webpack.config.js --mode production",
+    "build-web-dev": "webpack --config ./app/web/webpack.config.js --mode development",
+    "build-mobile": "webpack --config ./app/mobile/TicTacToe/webpack.config.js --mode production",
+    "build-mobile-dev": "webpack --config ./app/mobile/TicTacToe/webpack.config.js --mode development",
     "deploy": "gulp",
-    "build_and_deploy": "webpack && gulp",
-    "test": "mocha --require babel-polyfill --compilers js:babel-register"
+    "test": "mocha --require babel-register ./test/**/test_*.js",
+    "start-server": "node ./deploy/server/main.js"
   },
   "author": "evg656e <evg656e@gmail.com>",
   "repository": {
@@ -16,6 +23,7 @@
     "url": "https://github.com/evg656e/tictactoe"
   },
   "keywords": [
+    "es6",
     "tictactoe",
     "isomorphic",
     "qt",
@@ -29,18 +37,20 @@
   ],
   "license": "MIT",
   "devDependencies": {
-    "babel-polyfill": "^6.23.0",
-    "babel-preset-env": "^1.5.2",
-    "babel-register": "^6.24.1",
-    "events": "^1.1.1",
-    "express": "^4.15.3",
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.4",
+    "babel-preset-env": "^1.6.1",
+    "babel-register": "^6.26.0",
+    "events": "^2.0.0",
+    "express": "^4.16.3",
     "gulp": "^3.9.1",
-    "lodash": "^4.17.4",
-    "mocha": "^3.4.2",
-    "polyfill-qml": "0.0.1",
+    "lodash": "^4.17.5",
+    "mocha": "^5.1.0",
+    "polyfill-qml": "0.0.7",
     "qmlpragmalibrary-webpack-plugin": "0.0.1",
-    "webpack": "^3.0.0",
-    "webpack-merge": "^4.1.0",
-    "ws": "^2.3.1"
+    "webpack": "^4.5.0",
+    "webpack-cli": "^2.0.14",
+    "webpack-merge": "^4.1.2",
+    "ws": "^5.1.1"
   }
 }

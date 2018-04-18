@@ -1,8 +1,8 @@
 import assert from 'assert';
 import debounce from 'lodash/debounce';
 
-describe('debounce', function() {
-    it('debounce', function(done) {
+describe('3rdparty.debounce', function () {
+    it('debounce', function (done) {
         let clickCount = 0;
         function click() {
             clickCount++;
@@ -18,7 +18,7 @@ describe('debounce', function() {
         assert.strictEqual(clickCount, 0);
     });
 
-    it('debounce cancel', function(done) {
+    it('debounce cancel', function (done) {
         const delay = 10;
 
         function click() {
@@ -32,8 +32,8 @@ describe('debounce', function() {
         debouncedClick();
         debouncedClick.cancel();
 
-        setTimeout(function() {
+        setTimeout(function () {
             done();
-        }, delay*2);
+        }, delay * 2);
     });
 });

@@ -3,7 +3,7 @@ import QtQuick.Controls 2.1
 import QtQuick.Layouts 1.3
 import QtQuick.Window 2.2
 import QtWebSockets 1.1
-import 'tictactoeclient.qml.js' as Lib
+import './build/tictactoe.js' as TicTacToe
 
 Window {
     id: window
@@ -19,13 +19,13 @@ Window {
 
     readonly property int lineWidth: 4
 
-    readonly property string serverUrl: 'ws://tictactoe-env.us-west-2.elasticbeanstalk.com/'
-//    readonly property string serverUrl: 'ws://127.0.0.1:3000/'
+    // readonly property string serverUrl: 'ws://tictactoe-env.us-west-2.elasticbeanstalk.com/'
+    readonly property string serverUrl: 'ws://127.0.0.1:3000/'
 
     function playerColor(color) {
         switch (color) {
-        case Lib.TicTacToe.Player1: return '#083d77';
-        case Lib.TicTacToe.Player2: return '#ff9f1c';
+        case TicTacToe.Player1: return '#083d77';
+        case TicTacToe.Player2: return '#ff9f1c';
         default: return '';
         }
     }
@@ -80,9 +80,9 @@ Window {
         }
 
         function updateName(player) {
-            if (player.index === Lib.TicTacToe.Player1)
+            if (player.index === TicTacToe.Player1)
                 player1Name.text = player.name;
-            else if (player.index === Lib.TicTacToe.Player2)
+            else if (player.index === TicTacToe.Player2)
                 player2Name.text = player.name;
 
             if (player.index === moveStatus.playerIndex)
@@ -92,27 +92,27 @@ Window {
         }
 
         function clearName(player) {
-            if (player.index === Lib.TicTacToe.Player1) {
-                player1Name.text = Lib.TicTacToe.playerName(Lib.TicTacToe.Player1);
+            if (player.index === TicTacToe.Player1) {
+                player1Name.text = TicTacToe.playerName(TicTacToe.Player1);
                 player1SelfMark.opacity = 0;
             }
-            else if (player.index === Lib.TicTacToe.Player2) {
-                player2Name.text = Lib.TicTacToe.playerName(Lib.TicTacToe.Player2);
+            else if (player.index === TicTacToe.Player2) {
+                player2Name.text = TicTacToe.playerName(TicTacToe.Player2);
                 player2SelfMark.opacity = 0;
             }
         }
 
         function updateScore(player) {
-            if (player.index === Lib.TicTacToe.Player1)
+            if (player.index === TicTacToe.Player1)
                 player1Score.text = player.score;
-            else if (player.index === Lib.TicTacToe.Player2)
+            else if (player.index === TicTacToe.Player2)
                 player2Score.text = player.score;
         }
 
         function clearScore(player) {
-            if (player.index === Lib.TicTacToe.Player1)
+            if (player.index === TicTacToe.Player1)
                 player1Score.text = 0;
-            else if (player.index === Lib.TicTacToe.Player2)
+            else if (player.index === TicTacToe.Player2)
                 player2Score.text = 0;
         }
 
@@ -130,9 +130,9 @@ Window {
         function setPlayers(newPlayers) {
             players = newPlayers.slice();
             players.forEach(function(player, index) {
-                if (index === Lib.TicTacToe.Player1)
+                if (index === TicTacToe.Player1)
                     player1SelfMark.opacity = player.isSelf() ? 1 : 0;
-                else if (index === Lib.TicTacToe.Player2)
+                else if (index === TicTacToe.Player2)
                     player2SelfMark.opacity = player.isSelf() ? 1 : 0;
                 player.nameChanged.connect(updateName);
                 player.scoreChanged.connect(updateScore);
@@ -140,10 +140,10 @@ Window {
         }
 
         function updateMatchState(state, winner) {
-            if (state === Lib.TicTacToe.PlayersReadyState) {
+            if (state === TicTacToe.PlayersReadyState) {
                 setPlayers(match.players);
             }
-            else if (state === Lib.TicTacToe.MatchFinishedState) {
+            else if (state === TicTacToe.MatchFinishedState) {
                 if (winner !== undefined) {
                     winStatus.playerIndex = winner.index;
                     winnerName.text = winner.name;
@@ -152,7 +152,7 @@ Window {
                 else
                     matchStatus.toggleStatus('drawStatus');
             }
-            else if (state === Lib.TicTacToe.WaitingForPlayersState) {
+            else if (state === TicTacToe.WaitingForPlayersState) {
                 matchStatus.toggleStatus('waitStatus');
             }
         }
@@ -192,7 +192,7 @@ Window {
         }
 
         Component.onCompleted: {
-            gameClient = new Lib.TicTacToe.GameClient(serverUrl)
+            gameClient = new TicTacToe.GameClient(serverUrl, TicTacToe.WebSocket)
             gameClient.matchReady.connect(setMatch)
             gameClient.showStatus.connect(showClientStatus);
             gameClient.hideStatus.connect(hideClientStatus);
@@ -205,7 +205,7 @@ Window {
         property var grid
 
         function updateCell(row, column, mark, index) {
-            set(Lib.TicTacToe.Grid.toIndex(row, column), { playerMark: mark, playerIndex: index });
+            set(TicTacToe.Grid.toIndex(row, column), { playerMark: mark, playerIndex: index });
         }
 
         function updateGrid() {
@@ -247,7 +247,7 @@ Window {
                 spacing: 0
                 Repeater {
                     id: gameModes
-                    model: Lib.TicTacToe.availableGameModes()
+                    model: TicTacToe.availableGameModes
                     Button {
                         Layout.maximumWidth: window.width*.33
                         text: modelData.text
@@ -284,10 +284,10 @@ Window {
 
                     font.pointSize: level1PointSize
                     horizontalAlignment: Text.AlignHCenter
-                    color: playerColor(Lib.TicTacToe.Player1)
+                    color: playerColor(TicTacToe.Player1)
 
                     onTextChanged: {
-                        var player = controller.match.findPlayer(Lib.TicTacToe.player1)
+                        var player = controller.match.findPlayer(TicTacToe.player1)
                         if (player)
                             player.setName(player1Name.text)
                     }
@@ -315,10 +315,10 @@ Window {
 
                     font.pointSize: level1PointSize
                     horizontalAlignment: Text.AlignHCenter
-                    color: playerColor(Lib.TicTacToe.Player2)
+                    color: playerColor(TicTacToe.Player2)
 
                     onTextChanged: {
-                        var player = controller.match.findPlayer(Lib.TicTacToe.player2)
+                        var player = controller.match.findPlayer(TicTacToe.player2)
                         if (player)
                             player.setName(player2Name.text)
                     }
@@ -376,7 +376,7 @@ Window {
                     id: player1Score
                     text: '0'
                     font.pointSize: level2PointSize
-                    color: playerColor(Lib.TicTacToe.Player1)
+                    color: playerColor(TicTacToe.Player1)
                 }
                 Label {
                     text: ' : '
@@ -386,7 +386,7 @@ Window {
                     id: player2Score
                     text: '0'
                     font.pointSize: level2PointSize
-                    color: playerColor(Lib.TicTacToe.Player2)
+                    color: playerColor(TicTacToe.Player2)
                 }
             }
         }
@@ -399,8 +399,8 @@ Window {
                 id: gridView
                 anchors.centerIn: parent
                 spacing: -1
-                rows: Lib.TicTacToe.Grid.Size
-                columns: Lib.TicTacToe.Grid.Size
+                rows: TicTacToe.Grid.Size
+                columns: TicTacToe.Grid.Size
 
                 Repeater {
                     model: gridModel
@@ -409,8 +409,8 @@ Window {
                         width: 64
                         height: 64
                         color: 'lightgray'
-                        property int rowIndex: Lib.TicTacToe.Grid.toRow(index)
-                        property int columnIndex: Lib.TicTacToe.Grid.toColumn(index)
+                        property int rowIndex: TicTacToe.Grid.toRow(index)
+                        property int columnIndex: TicTacToe.Grid.toColumn(index)
 
                         Rectangle { // border
                             anchors {
@@ -426,7 +426,7 @@ Window {
                                 margins: 4
                             }
 
-//                            renderTarget: Canvas.FramebufferObject
+                            // renderTarget: Canvas.FramebufferObject
 
                             property int playerMark: model.playerMark
                             property int playerIndex: model.playerIndex
@@ -434,20 +434,20 @@ Window {
                             onPaint: {
                                 var context = getContext('2d');
                                 context.clearRect(0, 0, width, height);
-                                if (playerMark !== Lib.TicTacToe._) {
+                                if (playerMark !== TicTacToe._) {
                                     context.beginPath();
                                     var offset = Math.floor(lineWidth/2),
                                             left   = offset,
                                             top    = offset,
                                             right  = width - offset,
                                             bottom = height - offset;
-                                    if (playerMark === Lib.TicTacToe.X) {
+                                    if (playerMark === TicTacToe.X) {
                                         context.moveTo(left, top);
                                         context.lineTo(right, bottom);
                                         context.moveTo(right, top);
                                         context.lineTo(left, bottom);
                                     }
-                                    else if (playerMark === Lib.TicTacToe.O) {
+                                    else if (playerMark === TicTacToe.O) {
                                         context.arc(width/2, height/2, width/2 - offset - 1, 0, Math.PI*2, false);
                                         context.strokeStyle = playerColor(playerIndex);
                                     }

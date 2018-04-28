@@ -3,9 +3,6 @@ const path = require('path');
 module.exports = {
     context: __dirname,
     devtool: '',
-    optimization: {
-        minimize: false
-    },
     entry: [
         'polyfill-qml',
         './src/tictactoe.js',

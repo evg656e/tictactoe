@@ -307,7 +307,8 @@ Window {
                 Label {
                     text: ' : '
                     font.pointSize: level1PointSize
-                    anchors.verticalCenter: parent.verticalCenter
+//                    anchors.verticalCenter: parent.verticalCenter
+                    Layout.alignment: Qt.AlignVCenter
                 }
                 TextField {
                     id: player2Name
